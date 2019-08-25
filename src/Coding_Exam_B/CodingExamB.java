@@ -16,6 +16,8 @@ public class CodingExamB {
 	
 	
 	public static String getLoggingInfo(String fileName) {
+		String toReturn = "";
+		toReturn += "File: "+fileName+"\n";
 		/*
 		 * 1. Complete the getLoggingInfoMethod.
 		 *    The method takes in a String for a file and returns a String. 
@@ -24,8 +26,30 @@ public class CodingExamB {
 		 *    into one large String. The string will also state the file name and
 		 *    the line number for where each TODO was found. 
 		*/
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(fileName));
+			int lineNumber = 1;
+			String nextLine = "";
+			while(nextLine != null) {
+				nextLine = br.readLine();
+				if(nextLine != null) {
+					if(nextLine.contains("//TODO")) {
+						toReturn += lineNumber+": "+nextLine.trim()+"\n";
+					}
+				}
+				lineNumber++;
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		return "";
+		toReturn += "\n"+"\n";
+		
+		return toReturn;
 	}
 	
 	public static void main(String[] args) {
@@ -37,6 +61,14 @@ public class CodingExamB {
 		/*
 		 * 2. Write the finalLogString to a file called TODO_Log.txt. The file should match TODO_Log_example.txt. 
 		 */
+		try {
+			FileWriter fw = new FileWriter("src/Coding_Exam_B/TODO_Log.txt", true);
+			fw.append(finalLogString);
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 }
